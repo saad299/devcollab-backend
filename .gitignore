@@ -1,0 +1,25 @@
+# devcollab/devcollab/settings/__init__.py
+
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDEs / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
