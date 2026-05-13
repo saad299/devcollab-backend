@@ -20,11 +20,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Project.objects.filter(is_open=True).select_related("owner__profile")
 
-        search = self.request.query__params.get("search", "").strip()
-        tech_stack = self.request.query__params.get("tech_stack", "").strip()
-        role = self.request.query__params.get("role", "").strip()
+        search = self.request.query_params.get("search", "").strip()
+        tech_stack = self.request.query_params.get("tech_stack", "").strip()
+        role = self.request.query_params.get("role", "").strip()
 
-        if seach:
+        if search:
             queryset = queryset.filter(
                 Q(title__icontains=search)
                 | Q(description__icontains=search)
@@ -39,7 +39,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-    def get_permissions():
+    def get_permissions(self):
         if self.action in ["list", "retrieve"]:
             return [AllowAny()]
         if self.action == "create":
@@ -107,7 +107,7 @@ class CollaborationRequestViewSet(viewsets.ViewSet):
     def create(self, project_id):
         project = self.get_project(project_id)
 
-        if request.user != project.owner:
+        if self.request.user != project.owner:
             return Response(
                 {
                     'error': 'You cannot request to join your own project',
@@ -115,7 +115,7 @@ class CollaborationRequestViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        existing = CollaborationRequest.object.filter(
+        existing = CollaborationRequest.objects.filter(
             project = project,
             requester=request.user
         ).first()
@@ -148,10 +148,10 @@ class CollaborationRequestViewSet(viewsets.ViewSet):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    def update_status(request, project_id=None, id=None):
+    def update_status(self, request, project_id=None, id=None):
         project = self.get_project(project_id)
 
-        if project.owner != request.user:
+        if project.owner != self.request.user:
             return Response(
                 {
                     "error": "Only the project owner can update request status"
