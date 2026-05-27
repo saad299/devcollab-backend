@@ -13,6 +13,11 @@ from .permissions import IsOwner, IsProjectOwner
 
 # Create your views here.
 
+"""
+in railway.json file
+// "preDeployCommand": "python manage.py migrate",
+"""
+
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
