@@ -17,6 +17,7 @@ class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     tech_stack = models.TextField(help_text="Comma separated list of technologies")
+    roles_needed = models.TextField(help_text="Comma separated list of roles needed", default="")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
     is_open = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

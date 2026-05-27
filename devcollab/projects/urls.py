@@ -11,15 +11,26 @@ router.register(
 
 # {"id":6,"username":"Saad","email":"saad@gamil.com","profile":{"id":6,"bio":null,"avatar":null,"skills":null,"github_url":null,"linkedin_url":null,"website_url":null,"location":null,"user":6}}
 """
+1.
 username = Saad
 email = saad@gamil.com
-password = testpass123
+password = ewrew@#$@1432rrew
+2.
 username = Saad1
 email = saad1@gamil.com
-password = testpass1234
+password = erwETE25@$$@fdsfr
+3.
 username = Saad2
 email = saad2@gamil.com
-password = testpass12345
+password =  ffwSd@#$@124:s35!#$s
+4.
+username = Some_User_123
+email = someuser@devcollab.com
+password =   devcollab_User_12345
+5.
+username = Some_User_456
+email = some_user_again@devcollab.com
+password =    devcollab_User_34567
 """
 
 urlpatterns = [
@@ -37,7 +48,7 @@ urlpatterns = [
     # GET    /api/projects/<project_id>/requests/              — list requests (owner only)
     # POST   /api/projects/<project_id>/requests/              — send a request
     path(
-        'projects/<int:project_id>/requests',
+        'projects/<int:project_id>/requests/',
         CollaborationRequestViewSet.as_view({
             'get': 'list',
             'post': 'create',
@@ -45,9 +56,9 @@ urlpatterns = [
         name='project-requests'
     ),
 
-    # PATCH  /api/projects/<project_id>/requests/<pk>/         — accept or reject (owner only)
+    # PATCH  /api/projects/<project_id>/requests/<id>/         — accept or reject (owner only)
     path(
-        'requests/<int:project_id>/requests/<int:pk>',
+        'projects/<int:project_id>/requests/<int:id>/',
         CollaborationRequestViewSet.as_view({
             'patch': 'update_status'
         }),

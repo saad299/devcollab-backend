@@ -71,6 +71,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 class CollaborationRequestViewSet(viewsets.ViewSet):
+    serializer_class = CollaborationRequestSerializer
     """
         Handles collaboration requests nested under a project
         URL: /api/projects<project_id>/requests/
@@ -104,10 +105,11 @@ class CollaborationRequestViewSet(viewsets.ViewSet):
             status=status.HTTP_200_OK
         )
 
-    def create(self, project_id):
+    def create(self, request, *args, **kwargs):
+        project_id = kwargs.get('project_id')
         project = self.get_project(project_id)
 
-        if self.request.user != project.owner:
+        if self.request.user == project.owner:
             return Response(
                 {
                     'error': 'You cannot request to join your own project',
@@ -117,7 +119,7 @@ class CollaborationRequestViewSet(viewsets.ViewSet):
 
         existing = CollaborationRequest.objects.filter(
             project = project,
-            requester=request.user
+            requester=self.request.user
         ).first()
         
         if existing:
