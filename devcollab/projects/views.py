@@ -1,15 +1,15 @@
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, status
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.db.models import Q
 
-from .models import Project, CollaborationRequest
+from .models import CollaborationRequest, Project
+from .permissions import IsOwner
 from .serializers import CollaborationRequestSerializer, ProjectSerializer
-from .permissions import IsOwner, IsProjectOwner
 
 # Create your views here.
 
