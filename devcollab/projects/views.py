@@ -42,7 +42,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(Q(tech_stack__icontains=tech_stack)).distinct()
 
         if role:
-            queryset = queryset.filter(Q(role__icontains=role)).distinct()
+            queryset = queryset.filter(Q(roles_needed__icontains=role)).distinct()
 
         return queryset
 

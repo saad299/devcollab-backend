@@ -1,7 +1,7 @@
 from dataclasses import fields
 from rest_framework import serializers
 from .models import CollaborationRequest, Project
-from accounts.serializers import UserSerializer
+from accounts.serializers import SimpleUserSerializer
 
 class ProjectSerializer(serializers.ModelSerializer):
     # class Meta:
@@ -13,6 +13,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     roles_list = serializers.SerializerMethodField()
     request_status = serializers.SerializerMethodField()
     project_id = serializers.IntegerField(source='id', read_only=True)
+    # id = serializers.IntegerField(read_only=True)
 
     # This validation is for frontend - comma-separated strings
     tech_stack = serializers.CharField()
@@ -34,7 +35,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at', 'owner', 'tech_stack_list', 'roles_list', 'owner_data', 'request_status']
 
     def get_owner_data(self, obj):
-        return UserSerializer(obj.owner).data
+        return SimpleUserSerializer(obj.owner).data
     
     def get_tech_stack_list(self, obj):
         return obj.get_tech_stack_list()
@@ -73,8 +74,7 @@ class CollaborationRequestSerializer(serializers.ModelSerializer):
         ]
         
     def get_requester_data(self, obj):
-        from accounts.serializers import UserSerializer
-        return UserSerializer(obj.requester).data
+        return SimpleUserSerializer(obj.requester).data
     
     def get_project_detail(self, obj):
         return {
